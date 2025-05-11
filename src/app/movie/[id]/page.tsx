@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { movies } from '@/data/movies';
 import { PlayIcon, PlusIcon, ArrowLeftIcon, StarIcon } from '@heroicons/react/24/solid';
@@ -10,8 +10,6 @@ import type { Movie } from '@/data/movies';
 export default function MoviePage() {
   const { id } = useParams();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const showInfo = searchParams.get('info') === 'true';
   
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isInMyList, setIsInMyList] = useState(false);

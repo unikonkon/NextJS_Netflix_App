@@ -1,13 +1,27 @@
 import { Metadata } from 'next';
 import Banner from '@/components/Banner';
 import MovieRow from '@/components/MovieRow';
-import { movies, categories } from '@/data/movies';
+import { movies } from '@/data/movies';
 import type { Movie } from '@/data/movies';
 
 export const metadata: Metadata = {
   title: 'Netflix - Watch TV Shows & Movies',
   description: 'Watch Netflix movies & TV shows online or stream right to your smart TV, game console, PC, Mac, mobile, tablet and more.',
 };
+
+// Interface for Ghibli API response
+interface GhibliFilm {
+  id: string;
+  title: string;
+  description: string;
+  release_date: string;
+  running_time: string;
+  director: string;
+  producer: string;
+  image?: string;
+  movie_banner?: string;
+  rt_score: string;
+}
 
 // Function to fetch Studio Ghibli anime films and convert to Movie type
 async function getGhibliFilms(): Promise<Movie[]> {
@@ -21,7 +35,7 @@ async function getGhibliFilms(): Promise<Movie[]> {
     const data = await response.json();
     
     // Transform Ghibli API data to match our Movie type
-    return data.map((film: any) => ({
+    return data.map((film: GhibliFilm) => ({
       id: film.id,
       title: film.title,
       description: film.description,
