@@ -1,14 +1,7 @@
-import { Metadata } from 'next';
 import Banner from '@/components/Banner';
 import MovieRow from '@/components/MovieRow';
 import { movies } from '@/data/movies';
 import type { Movie } from '@/data/movies';
-
-export const metadata: Metadata = {
-  title: 'Netflix - Watch TV Shows & Movies',
-  description: 'Watch Netflix movies & TV shows online or stream right to your smart TV, game console, PC, Mac, mobile, tablet and more.',
-};
-
 // Interface for Ghibli API response
 interface GhibliFilm {
   id: string;
