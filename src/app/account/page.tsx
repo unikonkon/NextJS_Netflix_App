@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import MovieCard from '@/components/MovieCard';
-import type { Movie } from '@/data/movies';
+import { useAppContext } from '@/context/ContextProvider';
 
 // Mock user data
 const mockUser = {
@@ -17,13 +15,8 @@ const mockUser = {
 
 export default function AccountPage() {
   const router = useRouter();
-  const [myList, setMyList] = useState<Movie[]>([]);
-  
-  useEffect(() => {
-    // Get movies from localStorage
-    const savedList = JSON.parse(localStorage.getItem('myList') || '[]');
-    setMyList(savedList);
-  }, []);
+  const { myList, clearMyList } = useAppContext();
+  console.log("myList", myList);
 
   const handleLogout = () => {
     // In a real app, this would handle authentication logout
@@ -44,13 +37,6 @@ export default function AccountPage() {
         <section className="bg-gray-900 rounded-md p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <Image 
-                src={mockUser.avatar} 
-                alt="Profile" 
-                width={80} 
-                height={80} 
-                className="rounded-full"
-              />
               <div>
                 <h2 className="text-xl font-bold text-white">{mockUser.name}</h2>
                 <p className="text-gray-400">{mockUser.email}</p>
@@ -58,7 +44,7 @@ export default function AccountPage() {
             </div>
             <button 
               onClick={handleLogout}
-              className="bg-red-600 text-white py-2 px-6 rounded hover:bg-red-700 transition"
+              className="bg-red-600 text-white py-2 px-6 rounded hover:bg-red-700 transition cursor-pointer"
             >
               Logout
             </button>
@@ -84,7 +70,17 @@ export default function AccountPage() {
         
         {/* My List section */}
         <section>
-          <h2 className="text-2xl font-bold text-white mb-4">My List</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-white">My List</h2>
+            {myList.length > 0 && (
+              <button
+                onClick={clearMyList}
+                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition cursor-pointer"
+              >
+                Clear List
+              </button>
+            )}
+          </div>
           {myList.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {myList.map((movie) => (

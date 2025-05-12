@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { PlayIcon, InformationCircleIcon } from '@heroicons/react/24/solid';
 import type { Movie } from '@/data/movies';
+import VideoModal from './VideoModal';
 
 interface BannerProps {
   movies: Movie[];
@@ -12,6 +13,7 @@ interface BannerProps {
 
 export default function Banner({ movies }: BannerProps) {
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function Banner({ movies }: BannerProps) {
         </p>
         <div className="flex space-x-3">
           <button
-            onClick={() => router.push(`/movie/${movie.id}`)}
+            onClick={() => setShowVideoModal(true)}
             className="bannerButton bg-white text-black"
           >
             <PlayIcon className="h-6 w-6" />
@@ -55,6 +57,13 @@ export default function Banner({ movies }: BannerProps) {
           </button>
         </div>
       </div>
+
+      {/* Video Modal */}
+      <VideoModal 
+        isOpen={showVideoModal} 
+        onClose={() => setShowVideoModal(false)} 
+        videoUrl={movie.videoUrl} 
+      />
     </div>
   );
 } 
